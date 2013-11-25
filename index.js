@@ -121,7 +121,10 @@ module.exports = function livereload(opt) {
       return true;
     };
 
-    res.writeHead = function() {};
+    res.writeHead = function(statusCode, reasonPhrase, headers) {
+      // Keep the status, important for Redirects and NotFounds.
+      return writeHead.call(this, statusCode, reasonPhrase, headers);
+    };
 
     res.end = function(string, encoding) {
       restore();
