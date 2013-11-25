@@ -123,7 +123,9 @@ module.exports = function livereload(opt) {
 
     res.writeHead = function(statusCode, reasonPhrase, headers) {
       // Keep the status, important for Redirects and NotFounds.
-      return writeHead.call(this, statusCode, reasonPhrase, headers);
+      if (statusCode >= 300) {
+        return writeHead.call(this, statusCode, reasonPhrase, headers);
+      }
     };
 
     res.end = function(string, encoding) {
