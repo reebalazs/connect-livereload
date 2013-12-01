@@ -122,8 +122,9 @@ module.exports = function livereload(opt) {
     };
 
     res.writeHead = function(statusCode, reasonPhrase, headers) {
-      // Keep the status, important for Redirects and NotFounds.
-      if (statusCode >= 300) {
+      // Keep the status of redirects, otherwise they won't work.
+      // Stay 400 and 500 proxied.
+      if (statusCode >= 300 && statusCode < 400) {
         return writeHead.call(this, statusCode, reasonPhrase, headers);
       }
     };
